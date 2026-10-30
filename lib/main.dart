@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/constants/supabase_constants.dart';
 import 'core/theme/app_theme.dart';
+import 'presentation/screens/video_feed_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,14 +25,7 @@ class MyApp extends StatelessWidget {
       title: 'TikTok Video App',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
-      home: const Scaffold(
-        body: Center(
-          child: Text(
-            'Welcome to TikTok Video App',
-            style: TextStyle(color: Colors.white, fontSize: 18),
-          ),
-        ),
-      ),
+      home: const VideoFeedScreen(),
     );
   }
 }
