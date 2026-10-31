@@ -3,20 +3,27 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../features/auth/data/datasources/auth_remote_data_source.dart';
 import '../../features/auth/data/repositories/auth_repository_impl.dart';
 import '../../features/auth/domain/repositories/auth_repository.dart';
+import '../../features/auth/presentation/bloc/auth_bloc.dart';
 
 final sl = GetIt.instance;
 
 Future<void> initDependencies() async {
   // Supabase Client
-  sl.registerLazySingleton(() => Supabase.instance.client);
+  final supabase = Supabase.instance.client;
+  sl.registerLazySingleton(() => supabase);
 
   // Auth Remote Data Source
   sl.registerLazySingleton<AuthRemoteDataSource>(
-    () => AuthRemoteDataSourceImpl(sl()),
+    () => AuthRemoteDataSourceImpl(supabaseClient: sl()),
   );
 
   // Auth Repository
   sl.registerLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(sl()),
+    () => AuthRepositoryImpl(remoteDataSource: sl()),
+  );
+
+  // Auth BLoC (এটি যুক্ত করতে হবে)
+  sl.registerFactory(
+    () => AuthBloc(authRepository: sl()),
   );
 }
