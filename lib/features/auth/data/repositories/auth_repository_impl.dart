@@ -20,7 +20,8 @@ class AuthRepositoryImpl implements AuthRepository {
       );
       return const Right(null);
     } catch (e) {
-      return Left(Failure(e.toString()));
+      // এখানে Failure এর জায়গায় ServerFailure ব্যবহার করা হয়েছে
+      return Left(ServerFailure(e.toString()));
     }
   }
 
@@ -36,13 +37,15 @@ class AuthRepositoryImpl implements AuthRepository {
       );
       return const Right(null);
     } catch (e) {
-      return Left(Failure(e.toString()));
+      // এখানেও ServerFailure ব্যবহার করা হয়েছে
+      return Left(ServerFailure(e.toString()));
     }
   }
 
   @override
   Future<void> signOut() async {
     // সাইনআউট লজিক
+    await remoteDataSource.supabaseClient.auth.signOut();
   }
 
   @override
