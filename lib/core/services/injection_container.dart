@@ -22,7 +22,7 @@ Future<void> initDependencies() async {
     () => AuthRepositoryImpl(remoteDataSource: sl()),
   );
 
-  // Auth BLoC (এটি যুক্ত করতে হবে)
+  // Auth BLoC
   sl.registerFactory(
     () => AuthBloc(authRepository: sl()),
   );
