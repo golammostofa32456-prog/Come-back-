@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/services/injection_container.dart';
-import '../bloc/auth_bloc.dart';
+// ইম্পোর্ট পাথ ঠিক করা হয়েছে
+import '../../core/services/injection_container.dart';
+import '../../features/auth/presentation/bloc/auth_bloc.dart';
+import 'signup_screen.dart'; // সাইনআপ স্ক্রিনে যাওয়ার জন্য
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -37,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Login Successful!')),
               );
-              // সফলভাবে লগইন হলে পরবর্তী হোম স্ক্রিনে রিডাইরেক্ট করতে পারেন
+              // এখানে হোম স্ক্রিনে রিডাইরেক্ট করার নেভিগেশন দিতে পারেন
             }
           },
           builder: (context, state) {
@@ -60,14 +62,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextFormField(
                       controller: emailController,
                       decoration: const InputDecoration(labelText: 'Email'),
-                      validator: (value) => value!.isEmpty ? 'Enter an email' : null,
+                      validator: (value) => value == null || value.isEmpty ? 'Enter an email' : null,
                     ),
                     const SizedBox(height: 15),
                     TextFormField(
                       controller: passwordController,
                       decoration: const InputDecoration(labelText: 'Password'),
                       obscureText: true,
-                      validator: (value) => value!.length < 6 ? 'Password too short' : null,
+                      validator: (value) => value != null && value.length < 6 ? 'Password too short' : null,
                     ),
                     const SizedBox(height: 25),
                     ElevatedButton(
@@ -83,6 +85,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       child: const Text('Login'),
                     ),
+                    const SizedBox(height: 15),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => const SignupScreen()));
+                      },
+                      child: const Text("Don't have an account? Sign Up"),
+                    )
                   ],
                 ),
               ),
