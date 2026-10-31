@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/services/injection_container.dart';
-import '../bloc/auth_bloc.dart';
+// ইম্পোর্ট পাথ ঠিক করা হয়েছে
+import '../../core/services/injection_container.dart';
+import '../../features/auth/presentation/bloc/auth_bloc.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -37,6 +38,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Account Created Successfully! Please Login.')),
               );
+              Navigator.pop(context); // সফল হলে লগইন স্ক্রিনে ফিরে যাবে
             }
           },
           builder: (context, state) {
@@ -59,14 +61,14 @@ class _SignupScreenState extends State<SignupScreen> {
                     TextFormField(
                       controller: emailController,
                       decoration: const InputDecoration(labelText: 'Email'),
-                      validator: (value) => value!.isEmpty ? 'Enter an email' : null,
+                      validator: (value) => value == null || value.isEmpty ? 'Enter an email' : null,
                     ),
                     const SizedBox(height: 15),
                     TextFormField(
                       controller: passwordController,
                       decoration: const InputDecoration(labelText: 'Password'),
                       obscureText: true,
-                      validator: (value) => value!.length < 6 ? 'Password too short' : null,
+                      validator: (value) => value != null && value.length < 6 ? 'Password too short' : null,
                     ),
                     const SizedBox(height: 25),
                     ElevatedButton(
