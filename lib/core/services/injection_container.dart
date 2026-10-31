@@ -9,21 +9,25 @@ final sl = GetIt.instance;
 
 Future<void> initDependencies() async {
   // Supabase Client
-  final supabase = Supabase.instance.client;
-  sl.registerLazySingleton(() => supabase);
+  // টাইপ ডিফাইন করে দেওয়া ভালো, যাতে GetIt বুঝতে পারে
+  if (!sl.isRegistered<SupabaseClient>()) {
+    sl.registerLazySingleton<SupabaseClient>(() => Supabase.instance.client);
+  }
 
   // Auth Remote Data Source
+  // এরর ফিক্স: supabaseClient: বাদ দিয়ে সরাসরি sl() পাস করা হয়েছে (Positional)
   sl.registerLazySingleton<AuthRemoteDataSource>(
-    () => AuthRemoteDataSourceImpl(supabaseClient: sl()),
+    () => AuthRemoteDataSourceImpl(sl()),
   );
 
   // Auth Repository
+  // এরর ফিক্স: authRemoteDataSource: বাদ দিয়ে সরাসরি sl() পাস করা হয়েছে (Positional)
   sl.registerLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(authRemoteDataSource: sl()),
+    () => AuthRepositoryImpl(sl()), 
   );
 
   // Auth BLoC
   sl.registerFactory(
-    () => AuthBloc(authRepository: sl()),
+    () => AuthBloc(authRepository: sl()), // এটি ঠিক আছে, যদি AuthBloc-এ named param থাকে
   );
 }
