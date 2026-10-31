@@ -19,7 +19,7 @@ Future<void> initDependencies() async {
 
   // Auth Repository
   sl.registerLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(remoteDataSource: sl()),
+    () => AuthRepositoryImpl(authRemoteDataSource: sl()),
   );
 
   // Auth BLoC
